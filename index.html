@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sistema de inventário</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <h1>Phone Inventory Management</h1>
+    <div id="Inventory">
+        
+    </div>
+    <div id="form-container">
+        <form id="phone-form">
+            <label for="brand">Brand:</label>
+            <select id="brand" name="brand">
+                <option value="Samsung">Samsung</option>
+                <option value="Apple">Apple</option>
+                <option value="Xiaomi">Xiaomi</option>
+                <option value="OnePlus">OnePlus</option>
+                <option value="Nokia">Nokia</option>
+            </select>
+            <label for="model">Model:</label>
+            <input type="text" id="model" name="model" required>
+            <label for="price">Price:</label>
+            <input type="number" id="price" name="price" required>
+            <label for="stock">Stock:</label>
+            <input type="number" id="stock" name="stock" required>
+            <button type="submit">Add Phone</button>
+        </form>
+    </div>
+    <script src="script.js"></script>
+</body>
+</html>
