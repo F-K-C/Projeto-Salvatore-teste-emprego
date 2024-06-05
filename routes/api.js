@@ -1,5 +1,6 @@
 const express = require('express');
 const router = express.Router();
+const Phone = require('../inventory-management/models/Phone');
 
 let phones = [];
 const allowedBrands = ['Samsung', 'Apple', 'Xiaomi', 'OnePlus', 'Nokia'];
@@ -15,8 +16,28 @@ router.post('/phones', (req, res) => {
     res.status(201).json(newPhone);
 });
 
-router.get('/phones', (req, res) => {
-    res.json(phones);
+router.post('/phones', async (req, res) => {
+    const phone = new Phone({
+        brand: req.body.brand,
+        model: req.body.model,
+        price: req.body.price,
+        stock: req.body.stock
+    });
+    try {
+        const newPhone = await phone.save();
+        res.status(201).json(newPhone);
+    } catch (err){
+        res.status(400).json({ message: err.message });
+    }
+});
+
+router.get('/phones', async (req, res) => {
+    try {
+        const phones = await Phone.find();
+        res.json(phones);
+    } catch (err) {
+        res.status(500).json({ message: err.message });
+    }
 });
 
 router.get('/phones/:id', (req, res) => {
@@ -45,6 +66,20 @@ router.put('/phones/:id', (req, res) => {
 router.delete('/phones/:id', (req, res) => {
     phones = phones.filter(p=> p.id !== parseInt(req.params.id));
     res.status(204).send();
+});
+
+router.delete('/phones/:id', async (req, res) => {
+    try {
+        const phone = await Phone.findById(req.params.id);
+        if (phone == null){
+            return res.status(404).json({ message: 'Phone not found' });
+        }
+
+        await phone.remove();
+        res.json({ message: 'Phone deleted' });
+    } catch (err){
+        res.status(500).json({ message: err.message });
+    }
 });
 
 module.exports = router;
